@@ -4,7 +4,12 @@
  * @Last Modified by: saber2pr
  * @Last Modified time: 2019-04-19 20:56:56
  */
-import { ServerResponse, IncomingMessage, createServer } from 'http'
+import {
+  ServerResponse,
+  IncomingMessage,
+  createServer,
+  RequestListener
+} from 'http'
 
 export type Next = () => Promise<any>
 
@@ -30,10 +35,12 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
   private jobs: J[]
   public ctx: T
 
-  public callback(request: IncomingMessage, response: ServerResponse) {
-    const ctx = Object.assign({ request, response }, this.ctx)
-    const reducer = (next: Next, job: J) => async () => await job(ctx, next)
-    return this.jobs.reduceRight(reducer, null)
+  public callback(): RequestListener {
+    return (request, response) => {
+      const ctx = Object.assign({ request, response }, this.ctx)
+      const reducer = (next: Next, job: J) => async () => await job(ctx, next)
+      return this.jobs.reduceRight(reducer, null)()
+    }
   }
 
   public use(...jobs: J[]) {
@@ -42,8 +49,6 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
   }
 
   public server() {
-    return createServer((request, response) =>
-      this.callback(request, response)()
-    )
+    return createServer(this.callback())
   }
 }
