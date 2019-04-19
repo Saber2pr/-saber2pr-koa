@@ -8,7 +8,8 @@ import {
   ServerResponse,
   IncomingMessage,
   createServer,
-  RequestListener
+  RequestListener,
+  Server
 } from 'http'
 
 export type Next = () => Promise<any>
@@ -48,7 +49,7 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
     return this
   }
 
-  public server() {
-    return createServer(this.callback())
+  public listen: Server['listen'] = () => {
+    return createServer(this.callback()).listen()
   }
 }
