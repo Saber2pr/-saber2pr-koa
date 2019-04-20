@@ -28,13 +28,7 @@ export function Koa<T>(ctx?: T): KoaBody<T> {
 }
 
 export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
-  constructor(ctx?: T) {
-    this.jobs = []
-    this.ctx = ctx
-  }
-
-  private jobs: J[]
-  public ctx: T
+  constructor(public ctx: T = <T>{}, private jobs: J[] = []) {}
 
   public callback(): RequestListener {
     return (request, response) => {
@@ -49,7 +43,6 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
     return this
   }
 
-  public listen: Server['listen'] = (...args) => {
-    return createServer(this.callback()).listen(...args)
-  }
+  public listen: Server['listen'] = (...args) =>
+    createServer(this.callback()).listen(...args)
 }

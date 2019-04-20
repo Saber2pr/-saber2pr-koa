@@ -1,5 +1,7 @@
 # @saber2pr/koa
 
+[![npm](https://img.shields.io/npm/v/@saber2pr/koa.svg?color=blue)](https://www.npmjs.com/package/@saber2pr/koa)
+
 > koa in typescript.
 
 ```bash
