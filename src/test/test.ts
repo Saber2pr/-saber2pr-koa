@@ -1,27 +1,32 @@
 import { Koa } from '../core/saber-koa'
-
 const app = Koa<{ version }>({ version: '0.0.1' })
 
-app.use(async (ctx, next) => {
-  if (ctx.request.url === '/') {
-    ctx.response.end('Hello World!')
-    ctx.version
+app
+  .use(async (ctx, next) => {
+    if (ctx.request.url === '/') {
+      ctx.response.end('Hello World!')
+    }
     await next()
-  }
-})
+  })
 
-app.use(async (ctx, next) => {
-  if (ctx.request.url === '/user') {
-    ctx.response.end('user!')
-  }
-})
+  .use(async (ctx, next) => {
+    if (ctx.request.url === '/user') {
+      ctx.response.end('user!')
+    }
+    await next()
+  })
 
-app.use(async (ctx, next) => {
-  if (ctx.request.url === '/user/saber2pr') {
-    ctx.response.end('saber2pr!')
-  }
-})
+  .use(async (ctx, next) => {
+    if (ctx.request.url === '/user/saber2pr') {
+      ctx.response.end('saber2pr!')
+    }
+    await next()
+  })
 
-app.listen(3000, () => console.log('http://localhost:3000'))
+  .use(async ctx => {
+    if (ctx.request.url === '/version') {
+      ctx.response.end(ctx.version)
+    }
+  })
 
-app.callback() // RequestListener
+  .listen(3000, () => console.log('http://localhost:3000'))
