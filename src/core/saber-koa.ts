@@ -34,7 +34,7 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
   public callback(): RequestListener {
     return (request, response) => {
       const ctx = Object.assign({ request, response }, this.ctx)
-      return compose<T>(...this.jobs)(ctx, null)
+      return compose<T>(...this.jobs)(ctx, () => Promise.resolve())
     }
   }
 
