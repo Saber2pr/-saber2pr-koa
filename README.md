@@ -12,6 +12,16 @@ npm install @saber2pr/koa
 git clone https://github.com/Saber2pr/-saber2pr-koa.git
 ```
 
+## API
+
+1. compose
+
+   > 组合多个 Job
+
+2. Koa
+
+   > 创建一个应用
+
 # Koa
 
 ```ts

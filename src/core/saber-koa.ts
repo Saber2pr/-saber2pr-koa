@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-04-19 20:33:35
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-04-19 20:56:56
+ * @Last Modified time: 2019-04-27 20:09:52
  */
 import {
   ServerResponse,
@@ -11,10 +11,11 @@ import {
   RequestListener,
   Server
 } from 'http'
+import { compose } from './compose'
 
 export type Next = () => Promise<any>
 
-export type Job<T> = (ctx: Context & T, next: Next) => Promise<void>
+export type Job<T = {}> = (ctx: Context & T, next: Next) => Promise<void>
 
 export interface Context {
   request: IncomingMessage
@@ -33,8 +34,7 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
   public callback(): RequestListener {
     return (request, response) => {
       const ctx = Object.assign({ request, response }, this.ctx)
-      const reducer = (next: Next, job: J) => async () => await job(ctx, next)
-      return this.jobs.reduceRight(reducer, null)()
+      return compose<T>(...this.jobs)(ctx, null)
     }
   }
 
