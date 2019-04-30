@@ -2,7 +2,7 @@
  * @Author: saber2pr
  * @Date: 2019-04-19 20:33:35
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-04-30 12:47:30
+ * @Last Modified time: 2019-04-30 21:39:49
  */
 import { createServer, RequestListener, Server } from 'http'
 import { compose, Job } from './compose'
@@ -20,10 +20,14 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
     private jobs: J[] = []
   ) {}
 
+  public body() {
+    return compose(...this.jobs)
+  }
+
   public callback(): RequestListener {
     return (request, response) => {
-      const ctx = Object.assign({ request, response }, this.ctx)
-      return compose<T>(...this.jobs)(ctx, () => Promise.resolve())
+      const ctx = Object.assign(this.ctx, { request, response })
+      return this.body()(ctx, () => Promise.resolve())
     }
   }
 
