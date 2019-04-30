@@ -43,6 +43,6 @@ export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
     return this
   }
 
-  public listen: Server['listen'] = (...args) =>
+  public listen: Server['listen'] = (...args: any) =>
     createServer(this.callback()).listen(...args)
 }
