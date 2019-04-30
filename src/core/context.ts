@@ -1,13 +1,20 @@
 /*
  * @Author: saber2pr
  * @Date: 2019-04-30 12:37:27
- * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-04-30 12:37:27
+ * @Last Modified by: saber2pr
+ * @Last Modified time: 2019-04-30 12:46:13
  */
-import { Context } from './saber-koa'
+import { IncomingMessage, ServerResponse } from 'http'
+
+export interface Context {
+  request: IncomingMessage
+  response: ServerResponse
+}
+
+export type ContextType<T> = T & Context
 
 export interface This {}
 
 export function ctx<T>(c: This) {
-  return c as T & Context
+  return <ContextType<T>>c
 }

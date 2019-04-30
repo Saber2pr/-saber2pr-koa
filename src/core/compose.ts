@@ -1,10 +1,17 @@
 /*
  * @Author: saber2pr
- * @Date: 2019-04-27 20:08:30
+ * @Date: 2019-04-30 12:47:04
  * @Last Modified by:   saber2pr
- * @Last Modified time: 2019-04-27 20:08:30
+ * @Last Modified time: 2019-04-30 12:47:04
  */
-import { Job, Next } from './saber-koa'
+import { Context, ContextType } from './context'
+
+export type Next = () => Promise<any>
+
+export type Job<T = Context> = (
+  ctx: ContextType<T>,
+  next: Next
+) => Promise<void>
 
 export const compose = <T>(...jobs: (Job<T>)[]): Job<T> => async (ctx, next) =>
   jobs.reduceRight(

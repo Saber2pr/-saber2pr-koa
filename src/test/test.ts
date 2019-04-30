@@ -1,5 +1,5 @@
 import { Koa } from '../core/saber-koa'
-const app = Koa<{ version }>({ version: '0.0.1' })
+const app = Koa({ version: '0.0.1' })
 
 app
   .use(async (ctx, next) => {

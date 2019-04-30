@@ -25,7 +25,7 @@ git clone https://github.com/Saber2pr/-saber2pr-koa.git
 # Koa
 
 ```ts
-const app = Koa<{ version }>({ version: '0.0.1' })
+const app = Koa({ version: '0.0.1' })
 
 app
   .use(async (ctx, next) => {

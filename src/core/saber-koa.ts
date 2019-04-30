@@ -2,34 +2,23 @@
  * @Author: saber2pr
  * @Date: 2019-04-19 20:33:35
  * @Last Modified by: saber2pr
- * @Last Modified time: 2019-04-27 20:09:52
+ * @Last Modified time: 2019-04-30 12:47:30
  */
-import {
-  ServerResponse,
-  IncomingMessage,
-  createServer,
-  RequestListener,
-  Server
-} from 'http'
-import { compose } from './compose'
-
-export type Next = () => Promise<any>
-
-export type Job<T = {}> = (ctx: Context & T, next: Next) => Promise<void>
-
-export interface Context {
-  request: IncomingMessage
-  response: ServerResponse
-}
+import { createServer, RequestListener, Server } from 'http'
+import { compose, Job } from './compose'
+import { ContextType, Context } from './context'
 
 export function Koa(): KoaBody
 export function Koa<T>(ctx: T): KoaBody<T>
 export function Koa<T>(ctx?: T): KoaBody<T> {
-  return new KoaBody<T>(ctx)
+  return new KoaBody<T>(<ContextType<T>>ctx)
 }
 
 export class KoaBody<T = Context, J extends Job<T> = Job<T>> {
-  constructor(public ctx: T = <T>{}, private jobs: J[] = []) {}
+  constructor(
+    public ctx: ContextType<T> = <ContextType<T>>{},
+    private jobs: J[] = []
+  ) {}
 
   public callback(): RequestListener {
     return (request, response) => {
