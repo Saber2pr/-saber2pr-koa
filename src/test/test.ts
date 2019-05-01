@@ -1,6 +1,8 @@
 import { Koa } from '../core/saber-koa'
 
-const user = Koa()
+const user = Koa({
+  test: ''
+})
   .use(async (ctx, next) => {
     if (ctx.request.url === '/user') {
       ctx.response.end('user!')
@@ -17,7 +19,7 @@ const user = Koa()
   })
 
 // main app
-Koa({ version: '0.0.1' })
+Koa({ test: '' })
   .use(async (ctx, next) => {
     if (ctx.request.url === '/') {
       ctx.response.end('Hello World!')
@@ -27,7 +29,7 @@ Koa({ version: '0.0.1' })
   })
   .use(async (ctx, next) => {
     if (ctx.request.url === '/version') {
-      ctx.response.end(ctx.version)
+      // ctx.response.end(ctx.version)
     } else {
       await next()
     }

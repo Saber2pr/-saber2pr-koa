@@ -5,6 +5,7 @@
     "declaration": true,
     "outDir": "./lib",
     "esModuleInterop": true,
+    "strictFunctionTypes": true,
     "lib": [
       "dom",
       "es2015"

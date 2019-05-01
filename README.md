@@ -73,6 +73,22 @@ Koa({ version: '0.0.1' })
   .listen(3000, () => console.log('http://localhost:3000'))
 ```
 
+# Notice(\*)
+
+Typescript 的函数参数类型是双向协变的，这不安全！
+
+例如上面的 user.body()，它所依赖的 ContextType 需要主入口程序的 Context 提供，如果允许双向协变，它不会报错！
+
+强烈建议开启：--strictFunctionTypes
+
+```json
+{
+  "compilerOptions": {
+    "strictFunctionTypes": true
+  }
+}
+```
+
 ---
 
 ## start
