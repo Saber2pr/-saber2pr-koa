@@ -9,8 +9,8 @@ import { compose, Job } from './compose'
 import { ContextType, Context } from './context'
 
 export function Koa(): KoaBody
-export function Koa<T>(ctx: T): KoaBody<T>
-export function Koa<T>(ctx?: T): KoaBody<T> {
+export function Koa<T>(ctx: ThisType<Context & T>): KoaBody<T>
+export function Koa<T>(ctx?: ThisType<Context & T>): KoaBody<T> {
   return new KoaBody<T>(<ContextType<T>>ctx)
 }
 

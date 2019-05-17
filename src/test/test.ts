@@ -1,7 +1,9 @@
 import { Koa } from '../core/saber-koa'
 
 const user = Koa({
-  test: ''
+  test(){
+    this.request
+  }
 })
   .use(async (ctx, next) => {
     if (ctx.request.url === '/user') {

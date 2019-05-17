@@ -12,9 +12,3 @@ export interface Context {
 }
 
 export type ContextType<T> = T & Context
-
-export interface This {}
-
-export function ctx<T>(c: This) {
-  return <ContextType<T>>c
-}
